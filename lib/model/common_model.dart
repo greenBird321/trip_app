@@ -6,7 +6,8 @@ class CommonModel {
   final String statusBarColor;
   final bool hideAppBar;
 
-  CommonModel({this.icon, this.url, this.title, this.statusBarColor, this.hideAppBar});
+  CommonModel(
+      {this.icon, this.url, this.title, this.statusBarColor, this.hideAppBar});
 
   factory CommonModel.fromJson(Map<String, dynamic> json) {
     return CommonModel(
