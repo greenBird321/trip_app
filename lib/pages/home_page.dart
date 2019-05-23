@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 //    try {
     HomeModel model = await HomeDao.fetch();
     setState(() {
-      resultString = json.encode(model.config);
+      resultString = json.encode(model);
     });
 //    } catch (e) {
 //      setState(() {
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     Container(
-                      height: 100,
+                     // height: 200,
                       decoration: BoxDecoration(color: Colors.lightBlueAccent),
                       child: Text(resultString),
                     ),

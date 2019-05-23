@@ -45,4 +45,16 @@ class HomeModel {
       salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
   }
+
+
+  Map<String, dynamic> toJson() {
+    return {
+      "config": this.config,
+      "bannerList": this.bannerList,
+      "localNavList": this.localNavList,
+      "gridNav": this.gridNav,
+      "subNavList": this.subNavList,
+      "salesBox": this.salesBox,
+    };
+  }
 }

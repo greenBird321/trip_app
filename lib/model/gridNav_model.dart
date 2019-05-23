@@ -15,6 +15,14 @@ class GridNavModel {
             travel: GridNavItem.fromJson(json['travel']))
         : null;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "hotel": this.hotel,
+      "flight": this.flight,
+      "travel": this.travel,
+    };
+  }
 }
 
 // 在处理数据的时候，如果数据结构之前就有定义则可以进行Model复用
@@ -47,5 +55,17 @@ class GridNavItem {
       item3: CommonModel.fromJson(json['item3']),
       item4: CommonModel.fromJson(json['item4']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "startColor": this.startColor,
+      "endColor": this.endColor,
+      "mainItem": this.mainItem,
+      "item1": this.item1,
+      "item2": this.item2,
+      "item3": this.item3,
+      "item4": this.item4,
+    };
   }
 }

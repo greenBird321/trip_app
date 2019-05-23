@@ -17,4 +17,14 @@ class CommonModel {
         statusBarColor: json['statusBarColor'],
         hideAppBar: json['hideAppBar']);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "icon": this.icon,
+      "url": this.url,
+      "title": this.title,
+      "statusBarColor": this.statusBarColor,
+      "hideAppBar": this.hideAppBar,
+    };
+  }
 }
