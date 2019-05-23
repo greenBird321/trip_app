@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:trip_app/dao/home_dao.dart';
+import 'package:trip_app/model/home_model.dart';
 import 'package:trip_app/tools/imageClipper.dart';
+import 'dart:convert';
+import 'dart:async';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -18,17 +22,52 @@ class _HomePageState extends State<HomePage> {
     'https://dimg03.c-ctrip.com/images/fd/tg/g1/M03/7E/19/CghzfVWw6OaACaJXABqNWv6ecpw824_C_500_280_Q90.jpg',
   ];
 
-  _onScroller(double offset) {
-     double _appAlpha = offset / APPBAR_SCROLL_OFFSET;
-      if (_appAlpha < 0) {
-        _appAlpha = 0;
-      } else if (_appAlpha > 1) {
-        _appAlpha = 1;
-      }
+  // 用于 D A O 层测试
+  String resultString = '';
 
-      setState(() {
-        appBarAlpha = _appAlpha;
-      });
+  _onScroller(double offset) {
+    double _appAlpha = offset / APPBAR_SCROLL_OFFSET;
+    if (_appAlpha < 0) {
+      _appAlpha = 0;
+    } else if (_appAlpha > 1) {
+      _appAlpha = 1;
+    }
+
+    setState(() {
+      appBarAlpha = _appAlpha;
+    });
+  }
+
+  // 测试 D a o 方法
+  loadData() async {
+    // 方法1 类似 js的es6语法
+//    HomeDao.fetch().then((result) {
+//      setState(() {
+//        resultString = json.encode(result);
+//      });
+//    }).catchError((e) {
+//      setState(() {
+//        resultString = e;
+//      });
+//    });
+
+    // 方法2 flutter语法方式
+//    try {
+    HomeModel model = await HomeDao.fetch();
+    setState(() {
+      resultString = json.encode(model.config);
+    });
+//    } catch (e) {
+//      setState(() {
+//        resultString = e.toString();
+//      });
+//    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
   }
 
   @override
@@ -38,10 +77,14 @@ class _HomePageState extends State<HomePage> {
         removeTop: true,
         // removePadding最主要的属性 removeTop, removeRight, romoveLeft 如不添加则不起作用
         context: context,
-        child: NotificationListener(                    // 监听列表滚动需要添加的类 NotificationListener
-            onNotification: (scrollNotification) {    // 监听回调
-              if (scrollNotification is ScrollUpdateNotification && scrollNotification.depth == 0) {   // 为了程序效率的提升，如不判断在列表不滚动的时候也会调用此方法
-                  _onScroller(scrollNotification.metrics.pixels);
+        child: NotificationListener(
+            // 监听列表滚动需要添加的类 NotificationListener
+            onNotification: (scrollNotification) {
+              // 监听回调
+              if (scrollNotification is ScrollUpdateNotification &&
+                  scrollNotification.depth == 0) {
+                // 为了程序效率的提升，如不判断在列表不滚动的时候也会调用此方法
+                _onScroller(scrollNotification.metrics.pixels);
               }
             },
             child: Stack(
@@ -70,7 +113,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-
                         new Positioned(
                             left: 15.0,
                             right: 15.0,
@@ -80,12 +122,15 @@ class _HomePageState extends State<HomePage> {
                               elevation: 5.0,
                               color: Colors.white,
                             )),
-
                       ],
+                    ),
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(color: Colors.lightBlueAccent),
+                      child: Text(resultString),
                     ),
                   ],
                 ),
-
                 Opacity(
                   opacity: appBarAlpha,
                   child: Container(
@@ -93,12 +138,9 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ),
                 ),
-
               ],
-            )
-        ),
+            )),
       ),
     );
   }
 }
-
