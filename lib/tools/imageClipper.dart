@@ -10,10 +10,10 @@ class imageCliper extends CustomClipper<Path> {
     var path = Path();
     // 使用二次贝塞尔曲线
     // 起点变量。
-    path.lineTo(0.0, size.height - 25.0);
+    path.lineTo(0.0, size.height - 45.0);
     // 偏移（`Offset`）类，不可变的2D浮点偏移量。
     // 第一个控制点和第一点变量。
-    var firstControlPoint = Offset(size.width / 4, size.height - 10.0);
+    var firstControlPoint = Offset(size.width / 4, size.height - 15.0);
     var firstPoint = Offset(size.width / 2, size.height - 5 );
     // 二次贝塞尔曲线（`quadraticBezierTo`）方法，
     // 使用控制点（x1，y1）添加从当前点到给定点（x2，y2）的二次贝塞尔曲线段。
@@ -22,9 +22,9 @@ class imageCliper extends CustomClipper<Path> {
         firstPoint.dx, firstPoint.dy);
     // 第二个控制点和第二点变量。
     var secondControlPoint =
-    Offset(size.width - (size.width / 4), size.height - 10.0);
+    Offset(size.width - (size.width / 4), size.height - 15.0);
     // 第二个中间曲线变量。
-    var secondPoint = Offset(size.width, size.height - 25.0);
+    var secondPoint = Offset(size.width, size.height - 45.0);
     path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
         secondPoint.dx, secondPoint.dy);
     // 终点变量。

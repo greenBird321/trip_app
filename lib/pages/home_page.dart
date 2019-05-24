@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:trip_app/dao/home_dao.dart';
+import 'package:trip_app/model/common_model.dart';
 import 'package:trip_app/model/home_model.dart';
 import 'package:trip_app/tools/imageClipper.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:trip_app/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -23,7 +25,8 @@ class _HomePageState extends State<HomePage> {
   ];
 
   // 用于 D A O 层测试
-  String resultString = '';
+  //String resultString = '';
+  List<CommonModel> localNavList = [];
 
   _onScroller(double offset) {
     double _appAlpha = offset / APPBAR_SCROLL_OFFSET;
@@ -50,18 +53,15 @@ class _HomePageState extends State<HomePage> {
 //        resultString = e;
 //      });
 //    });
-
     // 方法2 flutter语法方式
-//    try {
-    HomeModel model = await HomeDao.fetch();
-    setState(() {
-      resultString = json.encode(model);
-    });
-//    } catch (e) {
-//      setState(() {
-//        resultString = e.toString();
-//      });
-//    }
+    try {
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        localNavList = model.localNavList;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Color(0xfff2f2f2),
       body: MediaQuery.removePadding(
         removeTop: true,
         // removePadding最主要的属性 removeTop, removeRight, romoveLeft 如不添加则不起作用
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               pagination: new SwiperPagination(
-                                alignment: Alignment(1.0, 0.5),
+                                alignment: Alignment(1.0, 0.4),
                               ),
                             ),
                           ),
@@ -116,19 +117,19 @@ class _HomePageState extends State<HomePage> {
                         new Positioned(
                             left: 15.0,
                             right: 15.0,
-                            top: 200,
-                            height: 50,
+                            top: 170,
+                            height: 80,
                             child: Card(
                               elevation: 5.0,
                               color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                                child: LocalNav(localNavModel: localNavList,),
+                              ),
                             )),
                       ],
                     ),
-                    Container(
-                     // height: 200,
-                      decoration: BoxDecoration(color: Colors.lightBlueAccent),
-                      child: Text(resultString),
-                    ),
+
                   ],
                 ),
                 Opacity(
